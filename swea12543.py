@@ -1,32 +1,19 @@
 # 부분 집합의 합
+# dfs
 
 T = int(input())
 
-for test_case in range(1, T+1):
+for test_case in range(1, 1 + T):
     N, K = map(int, input().split())
-    arr01 = [1]*N + [0]*(12-N)
-    result = 0
+    ans = 0
+    def dfs(now, sum, cnt):
+        global ans
+        if now <= 20 and sum < K and cnt < N:
+            dfs(now + 1, sum, cnt)
+            dfs(now + 1, sum + now, cnt + 1)
+        elif sum == K and cnt == N:
+            ans += 1
 
-    while True:
-        arr_sum = 0
-        cnt = 0
-        for i in range(12):
-            if arr01[i] == 1:
-                arr_sum += arr01[i]
-                cnt += i+1
-        if arr_sum == N and cnt == K:
-            result += 1
-        arr01[0] += 1
-        for i in range(11):
-            if arr01[i] == 2:
-                arr01[i] = 0
-                arr01[i + 1] += 1
-            else:
-                break
-        if arr01[11] == 2:
-            break
+    dfs(1, 0, 0)
 
-    print(f'#{test_case} {result}')
-
-
-
+    print('#{} {}'.format(test_case, ans))
